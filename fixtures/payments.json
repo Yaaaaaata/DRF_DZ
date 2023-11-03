@@ -1,0 +1,52 @@
+[
+  {
+    "model": "classes.course",
+    "pk": 1,
+    "fields": {
+      "title": "Название курса",
+      "preview": null,
+      "description": "Описание курса"
+    }
+  },
+  {
+    "model": "classes.lesson",
+    "pk": 1,
+    "fields": {
+      "title": "Название урока",
+      "description": "Описание урока",
+      "preview": null,
+      "video_link": null
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 1,
+    "fields": {
+      "email": "почта"
+    }
+  },
+  {
+    "model": "classes.payment",
+    "pk": 1,
+    "fields": {
+      "user": 1,
+      "payment_date": "2022-01-01",
+      "paid_course": 1,
+      "paid_lesson": null,
+      "amount": 10.00,
+      "payment_method": "cash"
+    }
+  },
+  {
+    "model": "classes.payment",
+    "pk": 2,
+    "fields": {
+      "user": 1,
+      "payment_date": "2022-02-01",
+      "paid_course": null,
+      "paid_lesson": 1,
+      "amount": 15.00,
+      "payment_method": "bank_transfer"
+    }
+  }
+]

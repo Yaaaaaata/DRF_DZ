@@ -1,5 +1,7 @@
 from django.db import models
 
+from users.models import User
+
 NULLABLE = {'null': True, 'blank': True}
 
 
@@ -7,6 +9,8 @@ class Course(models.Model):
     title = models.CharField(max_length=50, verbose_name='название')
     preview = models.ImageField(upload_to="previews/", verbose_name="превью", **NULLABLE)
     description = models.TextField(verbose_name='описание')
+
+    lessons = models.ManyToManyField('Lesson', verbose_name='урок')
 
     def __str__(self):
         return f'{self.title}'
@@ -28,3 +32,27 @@ class Lesson(models.Model):
     class Meta:
         verbose_name = "урок"
         verbose_name_plural = "уроки"
+
+
+class Payment(models.Model):
+    PAYMENT_METHOD = [
+        ("cash", "наличные"),
+        ("bank_transfer", "перевод"),
+    ]
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='пользователь')
+    payment_date = models.DateField(auto_now_add=True, verbose_name='дата оплаты')
+    paid_course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="payments",
+                                    verbose_name='оплаченный курс', **NULLABLE)
+    paid_lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, related_name="payments",
+                                    verbose_name='оплаченный урок', **NULLABLE)
+    amount = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='сумма оплаты')
+    payment_method = models.CharField(max_length=20, choices=PAYMENT_METHOD, verbose_name='способ оплаты')
+
+    def __str__(self):
+        return f"{self.user}: {self.payment_date} - {self.amount} - {self.payment_method}"
+
+    class Meta:
+        verbose_name = "платеж"
+        verbose_name_plural = "платежи"
+
