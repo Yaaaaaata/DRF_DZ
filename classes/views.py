@@ -41,3 +41,4 @@ class PaymentListAPIView(generics.ListAPIView):
     filterset_fields = ("paid_course", "paid_lesson", "payment_method")
     ordering_fields = ("pay_date",)
 
+
