@@ -25,7 +25,7 @@ class ClassesCase(APITestCase):
         self.subscription = Subscription.objects.create(course=self.course, user=self.user)
 
     def test_create_lesson(self):
-        """"""
+        """Тест создания урока"""
 
         url = reverse('classes:lesson-create')
         data = {
@@ -39,7 +39,7 @@ class ClassesCase(APITestCase):
         self.assertEqual(response.data['description'], 'This is a test lesson')
 
     def test_list_lesson(self):
-        """"""
+        """Тест списка уроков"""
 
         response = self.client.get(reverse('classes:lesson-list'))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -64,7 +64,7 @@ class ClassesCase(APITestCase):
         )
 
     def test_update_lesson(self):
-        """"""
+        """Тест изменения урока"""
         permission = Permission.objects.get(codename='change_lesson')
         self.user.user_permissions.add(permission)
 
@@ -78,7 +78,7 @@ class ClassesCase(APITestCase):
         self.assertEqual(self.lesson.title, 'TestLesson')
 
     def test_retrieve_lesson(self):
-        """"""
+        """Тест удаления отдельного урока"""
 
         url = reverse('classes:lesson-get', kwargs={'pk': self.lesson.id})
         response = self.client.get(url)
@@ -97,7 +97,7 @@ class ClassesCase(APITestCase):
         )
 
     def test_delete_lesson(self):
-        """"""
+        """Тест удаления уроков"""
 
         response = self.client.delete(reverse('classes:lesson-delete', kwargs={'pk': self.lesson.id}))
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
@@ -105,7 +105,7 @@ class ClassesCase(APITestCase):
 
 
 class PaymentListAPIViewTest(APITestCase):
-    """"""
+    """Тест платежей"""
 
     def setUp(self):
         self.client = APIClient()
@@ -142,6 +142,7 @@ class SubscriptionTestCase(APITestCase):
         self.subscription = Subscription.objects.create(course=self.course, user=self.user)
 
     def test_create_subscription(self):
+        """Тест создания подписки"""
         data = {
             'course_id': self.course.id,
         }
@@ -162,6 +163,7 @@ class SubscriptionTestCase(APITestCase):
         )
 
     def test_delete_subscription(self):
+        """Тест удаления подписки"""
         response = self.client.delete(reverse('classes:sub-delete', kwargs={'pk': self.subscription.id}))
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertFalse(Subscription.objects.all().exists())
